@@ -33,8 +33,51 @@
   Mobile means touch-first UI: Pull/Accept buttons must be thumb-reachable and
   swipe blocking must be watertight.
 
+- **Pull → Accept is a plain confirmation** ("Use 1 of 7 pulls?"). No preview:
+  a preview would itself become something to scroll. Cancel costs nothing.
+
+## The two hard constraints
+
+The user is the adversary *while bored*, and the judge *afterwards*.
+
+1. **No easy cheats.** In the craving state, any low-friction bypass will be
+   used. Effortful bypasses (editing code, root access) are acceptable residual
+   risk — the craving usually passes before they're done.
+2. **Never feel robbed.** If the plugin charges a pull for nothing, it gets
+   disabled. Every charge must buy real content.
+
+### Cheat vectors and answers
+
+| Vector | Answer |
+|---|---|
+| Native Instagram app on the phone | Out of the plugin's reach. Uninstall the app; use Firefox for Android only. **Precondition, not a feature.** |
+| Disable / remove the extension | Desktop: install via enterprise policy (`policies.json` / Chrome managed policy, `force_installed`), root-owned → not removable from the UI. Firefox Android has no policy support → residual risk. |
+| Private window / other profile / other browser | Policy: force-allow in private browsing. Other browsers: block instagram.com there by policy or hosts. Per-profile budgets otherwise. |
+| Change system clock | Take time from the HTTP `Date` header of Instagram's own responses, not the local clock. Never let the stored day go backwards. |
+| Clear extension storage / reinstall | Covered by forced install; storage survives updates. |
+| Swipe / wheel / keys / site "next" buttons | Blocked in capture phase; plugin re-asserts after every SPA re-render. |
+| Other surfaces: home feed, Explore, stories, profile grids, search, `/reel/<code>` typed directly | Every content surface goes through pulls, or is removed. Only DMs, own profile, settings stay native. |
+| "Friend" reels sent to self, alt account, group chat | Free only if sender ≠ viewer. Alt/group abuse: open question (cap?). |
+| DevTools editing storage | Accepted residual risk (effortful). |
+
+### Never charge for
+
+- Ads / sponsored items — skip them automatically, free.
+- Load failures, unavailable/deleted reels, stalled video — charge only once the
+  item actually plays (e.g. first frames rendered); otherwise refund.
+- Duplicates — anything already pulled today is free (re-view). Items seen on
+  earlier days: auto-skip, free.
+- Double taps — the confirmation step already guards this.
+
+No refunds for "it was boring" — that's a peek-then-refund cheat.
+
+### Quality lever (idea)
+
+The plugin can't fix the recommendation algorithm, but it can choose the
+*source* of the next pull: e.g. "reels from accounts I follow" vs "suggested".
+Better hit rate per pull = less feeling robbed.
+
 ## Open questions
 
-- What exactly happens between Pull and Accept? (Options: a plain confirmation
-  "Use 1 of 7 pulls?"; or a preview — author/caption/thumbnail — and Cancel
-  doesn't cost a pull; or Cancel still costs the pull.)
+- Friend reels: unlimited, or capped per day to close the alt-account/group loophole?
+- Pull sources: algorithmic feed only, or a "following only" option?
