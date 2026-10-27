@@ -40,25 +40,24 @@
 
 The user is the adversary *while bored*, and the judge *afterwards*.
 
-1. **No easy cheats.** In the craving state, any low-friction bypass will be
-   used. Effortful bypasses (editing code, root access) are acceptable residual
-   risk — the craving usually passes before they're done.
+1. **No easy cheats.** "Easy" = anything doable *inside the site/browser UI* in
+   the craving state: swiping, other Instagram surfaces, direct reel URLs, the
+   friend-reel path abused, and so on. Hard cheats (disabling the extension,
+   editing code or storage, DevTools, clock changes, other browsers, the native
+   app) are out of scope: the user considers them hard enough, already uses
+   Instagram only in the browser, and owns the code — found cheats or
+   annoyances get fixed as they come up.
 2. **Never feel robbed.** If the plugin charges a pull for nothing, it gets
    disabled. Every charge must buy real content.
 
-### Cheat vectors and answers
+### In-app cheat vectors (must be closed)
 
 | Vector | Answer |
 |---|---|
-| Native Instagram app on the phone | Out of the plugin's reach. Uninstall the app; use Firefox for Android only. **Precondition, not a feature.** |
-| Disable / remove the extension | Desktop: install via enterprise policy (`policies.json` / Chrome managed policy, `force_installed`), root-owned → not removable from the UI. Firefox Android has no policy support → residual risk. |
-| Private window / other profile / other browser | Policy: force-allow in private browsing. Other browsers: block instagram.com there by policy or hosts. Per-profile budgets otherwise. |
-| Change system clock | Take time from the HTTP `Date` header of Instagram's own responses, not the local clock. Never let the stored day go backwards. |
-| Clear extension storage / reinstall | Covered by forced install; storage survives updates. |
 | Swipe / wheel / keys / site "next" buttons | Blocked in capture phase; plugin re-asserts after every SPA re-render. |
 | Other surfaces: home feed, Explore, stories, profile grids, search, `/reel/<code>` typed directly | Every content surface goes through pulls, or is removed. Only DMs, own profile, settings stay native. |
-| "Friend" reels sent to self, alt account, group chat | Free only if sender ≠ viewer. Alt/group abuse: open question (cap?). |
-| DevTools editing storage | Accepted residual risk (effortful). |
+| Friend reel → keep going from there | Only the reel opened from the DM is free; the next one costs a pull. |
+| Friend reels sent to self | Free only if sender ≠ viewer. |
 
 ### Never charge for
 
@@ -71,13 +70,13 @@ The user is the adversary *while bored*, and the judge *afterwards*.
 
 No refunds for "it was boring" — that's a peek-then-refund cheat.
 
-### Quality lever (idea)
+### Source of pulls
 
-The plugin can't fix the recommendation algorithm, but it can choose the
-*source* of the next pull: e.g. "reels from accounts I follow" vs "suggested".
-Better hit rate per pull = less feeling robbed.
+Pulls come from the standard algorithmic "For you" reels feed — that is the feed
+the plugin exists for. No "following only" option: that feed is a slow trickle of
+mostly already-watched reels and can't be doomscrolled more than once.
 
-## Open questions
+## Decided
 
-- Friend reels: unlimited, or capped per day to close the alt-account/group loophole?
-- Pull sources: algorithmic feed only, or a "following only" option?
+- Friend reels: unlimited, no daily cap (real-world volume is low). Revisit only
+  if it becomes a problem.
