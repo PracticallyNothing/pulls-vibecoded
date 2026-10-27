@@ -76,6 +76,21 @@ Pulls come from the standard algorithmic "For you" reels feed — that is the fe
 the plugin exists for. No "following only" option: that feed is a slow trickle of
 mostly already-watched reels and can't be doomscrolled more than once.
 
+## Today's pulls survive reloads
+
+Instagram's feed forgets its sequence on reload (see experiments/002), so the
+plugin owns the sequence, not the site:
+
+- Today's pulls are stored as an ordered list of reel shortcodes.
+- Previous/next *within today's pulls* is the plugin's own navigation, free, and
+  shows each reel via `/reel/<code>/` — the single-reel page, which has no feed
+  attached and so leaks nothing new.
+- Only "next" past the end of the list offers **Pull**. Accepting loads the For
+  You feed at `/reels/<last code>/`, advances once, and charges when the new reel
+  plays. If the advance lands on a code already in today's list, skip on, free.
+- Landing on `/reels/` (or a reload of it) never shows Instagram's pick directly:
+  it goes to the latest pulled reel, or to the Pull screen if there are none yet.
+
 ## Decided
 
 - Friend reels: unlimited, no daily cap (real-world volume is low). Revisit only

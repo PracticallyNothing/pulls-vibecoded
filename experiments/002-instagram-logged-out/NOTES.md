@@ -30,3 +30,15 @@ viewport 1280×900, not logged in).
 - Behaviour past 4 reels, ads in the feed, DMs/friend-shared reels, the home feed
   and Explore as a logged-in user sees them. Those need a logged-in browser on
   the user's own machine, or DOM captures from it.
+
+## Reload and direct URLs (`reload.js`)
+
+- **Reload on `/reels/<X>/`** keeps X as the active reel, but the reels after it
+  are freshly recommended. The sequence watched before the reload is gone from
+  the page.
+- **Opening `/reels/<X>/` directly** (fresh context): X first, then ArrowDown goes
+  to a *new* recommendation — not to whatever followed X originally.
+- **Opening `/reel/<X>/`** (singular): just that one reel, 1 `<video>`, no
+  next/previous buttons, ArrowDown does nothing. A dead end — no feed attached.
+- `/reels/` with no code redirects to some reel and shows it immediately — i.e.
+  landing on the feed reveals content without a pull.
