@@ -75,7 +75,10 @@ test("ads are skipped and never charged, even with a pull pending", () => {
 test("a reel opened from a friend's message is free and kept in today's list", () => {
   const s = commitShown(fresh(), { ...reel("F"), fromFriend: true });
   assert.equal(remaining(s), 2);
-  assert.deepEqual(s.items.map(i => i.code), ["F"]);
+  assert.deepEqual(
+    s.items.map(i => i.code),
+    ["F"],
+  );
   assert.equal(decide(s, reel("F")), "show", "can be re-viewed later");
 });
 
@@ -91,5 +94,8 @@ test("committing an item that was never allowed is refused", () => {
 test("today's list keeps the order items were shown in", () => {
   let s = fresh(3);
   for (const c of ["A", "B", "C"]) s = commitShown(acceptPull(s).state, reel(c));
-  assert.deepEqual(s.items.map(i => i.code), ["A", "B", "C"]);
+  assert.deepEqual(
+    s.items.map(i => i.code),
+    ["A", "B", "C"],
+  );
 });

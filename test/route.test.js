@@ -3,8 +3,16 @@ import assert from "node:assert/strict";
 import { parseItem, itemPath, neighbours } from "../src/route.js";
 
 test("reads reel and post codes from Instagram paths", () => {
-  assert.deepEqual(parseItem("/reels/De4hj6RtfSb/"), { kind: "reel", code: "De4hj6RtfSb", feed: true });
-  assert.deepEqual(parseItem("/reel/De4hj6RtfSb/"), { kind: "reel", code: "De4hj6RtfSb", feed: false });
+  assert.deepEqual(parseItem("/reels/De4hj6RtfSb/"), {
+    kind: "reel",
+    code: "De4hj6RtfSb",
+    feed: true,
+  });
+  assert.deepEqual(parseItem("/reel/De4hj6RtfSb/"), {
+    kind: "reel",
+    code: "De4hj6RtfSb",
+    feed: false,
+  });
   assert.deepEqual(parseItem("/p/C_x-Y9/"), { kind: "post", code: "C_x-Y9", feed: false });
 });
 

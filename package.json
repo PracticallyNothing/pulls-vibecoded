@@ -3,6 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test \"test/**/*.test.js\""
+    "test": "node --test \"test/**/*.test.js\"",
+    "build": "node build.js",
+    "test:e2e": "node build.js --test && node --test --test-concurrency=1 \"test/e2e/*.e2e.js\"",
+    "format": "prettier --write src test build.js",
+    "format:check": "prettier --check src test build.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.10",
+    "playwright": "1.63.0",
+    "prettier": "^3.6.2"
   }
 }

@@ -96,10 +96,16 @@ plugin owns the sequence, not the site:
 - Previous/next *within today's pulls* is the plugin's own navigation, free, and
   shows each item on its single page — `/p/<code>/` for posts, `/reel/<code>/`
   for reels. (`/reel/` verified to have no feed attached; `/p/` to check.)
-- Only "next" past the end of the list offers **Pull**. Accepting advances the
-  feed the user is on (home or reels) by one item and charges when it is
-  actually shown: image loaded, or video playing. If the advance lands on an
-  item already in today's list, skip on, free.
+- Only "next" past the end of the list offers **Pull**. Accepting reveals a new
+  item and charges when it is actually shown: image loaded, or video playing.
+  - On the feed with a pulled item active: the plugin advances the feed by one.
+  - On the feed with a gated item active (behind the Pull screen): that item is
+    revealed.
+  - On a single-item page: go to the feed entry (`/reels/`); Instagram's fresh
+    pick is revealed. (Not `/reels/<last code>/` + advance: simpler, and avoids
+    the feed drifting towards whatever the last pull was.)
+  - If an advance lands on an item already in today's list: skip on, free.
+    (Not implemented yet.)
 - Landing on `/` or `/reels/` (or a reload) never shows Instagram's pick
   directly: it goes to the latest pulled item, or to the Pull screen if there
   are none yet.

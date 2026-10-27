@@ -1,0 +1,114 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Mock Instagram</title>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  #scroller {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+  }
+  .reel {
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reel video {
+    height: 90vh;
+  }
+  nav {
+    position: fixed;
+    right: 20px;
+    top: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+</style>
+<body>
+  <script>
+    // Stand-in for the parts of instagram.com measured in experiments/002:
+    //   /reels/            -> redirects to /reels/<fresh pick>/
+    //   /reels/<code>/     -> feed starting at <code>, followed by fresh picks;
+    //                         the URL follows the active reel
+    //   /reel/<code>/      -> that reel alone, no feed, no navigation
+    // Advancing: ArrowDown/ArrowUp, mouse wheel (native scroll), next/prev buttons.
+    const fresh = () => "N" + Math.random().toString(36).slice(2, 10);
+    const path = location.pathname;
+    let m;
+
+    function reelEl(code) {
+      const sec = document.createElement("section");
+      sec.className = "reel";
+      sec.dataset.code = code;
+      const v = document.createElement("video");
+      v.src = "/clip.webm";
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      sec.append(v);
+      return sec;
+    }
+
+    if ((m = path.match(/^\/reel\/([\w-]+)\/?$/))) {
+      const sec = reelEl(m[1]);
+      document.body.append(sec);
+      sec.querySelector("video").play();
+    } else if (path === "/reels/" || (m = path.match(/^\/reels\/([\w-]+)\/?$/))) {
+      const first = m ? m[1] : fresh();
+      if (!m) history.replaceState(null, "", `/reels/${first}/`);
+
+      const scroller = document.createElement("div");
+      scroller.id = "scroller";
+      document.body.append(scroller);
+      const add = code => scroller.append(reelEl(code));
+      add(first);
+      for (let i = 0; i < 3; i++) add(fresh()); // prefetched, like Instagram's ~4 videos
+
+      let active = -1;
+      function update() {
+        const i = Math.round(scroller.scrollTop / scroller.clientHeight);
+        if (i === active) return;
+        active = i;
+        const secs = [...scroller.children];
+        secs.forEach((s, j) => {
+          const v = s.querySelector("video");
+          j === i ? v.play() : v.pause();
+        });
+        history.pushState(null, "", `/reels/${secs[i].dataset.code}/`);
+        while (scroller.children.length - i < 4) add(fresh());
+      }
+      scroller.addEventListener("scroll", () => {
+        clearTimeout(update.t);
+        update.t = setTimeout(update, 80);
+      });
+      const step = dir => scroller.scrollBy({ top: dir * scroller.clientHeight });
+      addEventListener("keydown", e => {
+        if (e.key === "ArrowDown") step(1);
+        if (e.key === "ArrowUp") step(-1);
+      });
+
+      const nav = document.createElement("nav");
+      nav.setAttribute("aria-label", "Reels navigation controls");
+      for (const [label, dir] of [
+        ["Navigate to previous Reel", -1],
+        ["Navigate to next Reel", 1],
+      ]) {
+        const b = document.createElement("button");
+        b.setAttribute("aria-label", label);
+        b.textContent = dir < 0 ? "▲" : "▼";
+        b.onclick = () => step(dir);
+        nav.append(b);
+      }
+      document.body.append(nav);
+      update();
+    } else {
+      document.body.append("Mock home page");
+    }
+  </script>
+</body>
