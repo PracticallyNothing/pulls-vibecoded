@@ -70,13 +70,23 @@ The user is the adversary *while bored*, and the judge *afterwards*.
 
 No refunds for "it was boring" — that's a peek-then-refund cheat.
 
-### Source of pulls
+### Surfaces taken over
 
-Pulls come from the standard algorithmic "For you" reels feed — that is the feed
-the plugin exists for. No "following only" option: that feed is a slow trickle of
+Two feeds, both algorithmic, both taken over:
+
+- **Home feed** (`instagram.com/`, which the user calls the "For You" page):
+  posts — photos, carousels, videos/reels. A pull = one post. Swiping through a
+  carousel, reading comments, etc. on a pulled post is free. A pulled post is
+  re-viewed via its single-post page `/p/<code>/`.
+- **Reels feed** (`/reels/<code>/`): a pull = one reel, re-viewed via `/reel/<code>/`.
+
+These are the feeds the plugin exists for. No "following only" option: that feed is a slow trickle of
 mostly already-watched reels and can't be doomscrolled more than once.
 
 ## Today's pulls survive reloads
+
+(Verified on the reels feed; assumed the same for the home feed, which
+refreshes on reload.)
 
 Instagram's feed forgets its sequence on reload (see experiments/002), so the
 plugin owns the sequence, not the site:
@@ -95,3 +105,9 @@ plugin owns the sequence, not the site:
 
 - Friend reels: unlimited, no daily cap (real-world volume is low). Revisit only
   if it becomes a problem.
+
+## Open questions
+
+- One shared daily budget across home feed and reels, and one combined list of
+  today's pulls? (Assumed yes.)
+- Stories bar on the home page: remove, leave native, or each story = a pull?

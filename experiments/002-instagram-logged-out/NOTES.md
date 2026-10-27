@@ -42,3 +42,8 @@ viewport 1280×900, not logged in).
   next/previous buttons, ArrowDown does nothing. A dead end — no feed attached.
 - `/reels/` with no code redirects to some reel and shows it immediately — i.e.
   landing on the feed reveals content without a pull.
+
+## Home feed
+
+`instagram.com/` logged out = login page. The home feed can't be studied from
+here at all; it needs a logged-in browser or DOM captures.
