@@ -47,3 +47,7 @@ viewport 1280×900, not logged in).
 
 `instagram.com/` logged out = login page. The home feed can't be studied from
 here at all; it needs a logged-in browser or DOM captures.
+
+> Correction (see 003): on real Instagram `/reel/<code>/` also shows a "More
+> posts from <author>" grid under the reel. "Dead end" holds for navigation,
+> not for content.

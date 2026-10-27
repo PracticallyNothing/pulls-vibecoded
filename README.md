@@ -35,6 +35,9 @@ Done (tested against the mock): reels feed takeover — Pull screen, Pull → Ac
 native navigation blocked, free re-viewing of today's pulls via `/reel/<code>/`,
 budget and 08:00 reset.
 
-Not yet: home feed and `/p/<code>/` posts, friend reels from DMs, ads, skipping
+Smoke-tested on real logged-out Instagram (experiments/003).
+
+Not yet: hide "More posts from …" on single-item pages, move the panel off the
+caption, home feed and `/p/<code>/` posts, friend reels from DMs, ads, skipping
 already-pulled items, items seen on earlier days. Not tested in Firefox (it
 can't be installed in the cloud environment; `web-ext lint` passes).
