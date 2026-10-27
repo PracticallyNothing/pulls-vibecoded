@@ -110,9 +110,5 @@ plugin owns the sequence, not the site:
   list of today's pulls.
 - Stories bar stays native, untouched (user doesn't watch stories). Revisit
   after real use.
-
 - Friend reels: unlimited, no daily cap (real-world volume is low). Revisit only
   if it becomes a problem.
-
-## Open questions
-
