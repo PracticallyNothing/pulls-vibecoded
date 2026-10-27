@@ -24,3 +24,13 @@ The reels takeover behaves on the real site as on the mock.
   thumbnails themselves are new content shown for free → hide that section.
 - The plugin's prev/next panel (bottom centre) covers the reel's caption → move it.
 - Logged out, Instagram adds sign-up modals on top; irrelevant when logged in.
+
+## Firefox (same day, later)
+
+Same result in Firefox 158 (`BROWSER=firefox`), after installing the
+environment's proxy CAs into Firefox (see 004). Panel overlaps the caption there
+too.
+
+Chromium: one of five runs timed out at the Prev step (the `/reel/` page was
+not reached within 10 s); the other four passed. Cause not found yet — not
+written off as a flake.

@@ -1,13 +1,14 @@
-<!doctype html><meta charset="utf-8"><title>Mock feed</title>
+<!doctype html><meta charset="utf-8" /><title>Mock feed</title>
 <div id="feed"></div>
 <script>
-// Endless feed: append one item per call, like a reels page does on scroll.
-let n = 0;
-window.more = () => {
-  const el = document.createElement("article");
-  el.dataset.itemId = "reel-" + (++n);
-  el.textContent = "Reel #" + n;
-  document.getElementById("feed").append(el);
-};
-more(); more();
+  // Endless feed: append one item per call, like a reels page does on scroll.
+  let n = 0;
+  window.more = () => {
+    const el = document.createElement("article");
+    el.dataset.itemId = "reel-" + ++n;
+    el.textContent = "Reel #" + n;
+    document.getElementById("feed").append(el);
+  };
+  more();
+  more();
 </script>

@@ -4,10 +4,16 @@
   "version": "0.0.1",
   "permissions": ["storage"],
   "content_scripts": [
-    { "matches": ["http://localhost/*", "http://127.0.0.1/*"], "js": ["pulls.js"], "run_at": "document_idle" }
+    {
+      "matches": ["http://localhost/*", "http://127.0.0.1/*"],
+      "js": ["pulls.js"],
+      "run_at": "document_idle"
+    }
   ],
-  "browser_specific_settings": { "gecko": {
-    "id": "pulls-spike@example.invalid",
-    "data_collection_permissions": { "required": ["none"] }
-  } }
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pulls-spike@example.invalid",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  }
 }

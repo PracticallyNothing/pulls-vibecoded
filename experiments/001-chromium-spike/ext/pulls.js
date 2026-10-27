@@ -20,7 +20,7 @@ function handle(el) {
   busy = busy.then(async () => {
     const id = el.dataset.itemId;
     const state = await loadState();
-    if (state.pulled.includes(id)) return;          // re-viewing is free
+    if (state.pulled.includes(id)) return; // re-viewing is free
     if (state.pulled.length < LIMIT) {
       state.pulled.push(id);
       await chrome.storage.local.set({ state });
@@ -33,6 +33,6 @@ function handle(el) {
 
 document.querySelectorAll("[data-item-id]").forEach(handle);
 new MutationObserver(muts => {
-  for (const m of muts) for (const n of m.addedNodes)
-    if (n.nodeType === 1 && n.matches("[data-item-id]")) handle(n);
+  for (const m of muts)
+    for (const n of m.addedNodes) if (n.nodeType === 1 && n.matches("[data-item-id]")) handle(n);
 }).observe(document.body, { childList: true, subtree: true });

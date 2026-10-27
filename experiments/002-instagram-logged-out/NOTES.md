@@ -37,7 +37,7 @@ viewport 1280×900, not logged in).
   are freshly recommended. The sequence watched before the reload is gone from
   the page.
 - **Opening `/reels/<X>/` directly** (fresh context): X first, then ArrowDown goes
-  to a *new* recommendation — not to whatever followed X originally.
+  to a _new_ recommendation — not to whatever followed X originally.
 - **Opening `/reel/<X>/`** (singular): just that one reel, 1 `<video>`, no
   next/previous buttons, ArrowDown does nothing. A dead end — no feed attached.
 - `/reels/` with no code redirects to some reel and shows it immediately — i.e.

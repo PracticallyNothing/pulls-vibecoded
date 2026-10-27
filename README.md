@@ -13,13 +13,16 @@ getting it takes two deliberate clicks (Pull → Accept) instead of a swipe.
 ```sh
 npm install
 npm test            # unit tests (node:test, no browser)
-npm run test:e2e    # builds dist-test/ and drives it in Chromium against a mock Instagram
+npm run test:e2e          # builds dist-test/, drives it in Chromium against a mock Instagram
+npm run test:e2e:firefox  # same tests in Firefox (Puppeteer; FIREFOX_BIN, default /opt/firefox/firefox)
 npm run build       # builds dist/ — load as an unpacked extension
 npm run format      # prettier
 ```
 
 The e2e tests need Playwright's Chromium (`npx playwright install chromium` on a
-new machine). They use full Chromium (`channel: "chromium"`): Playwright's
+new machine) and, for Firefox, a regular Firefox binary. `EXTRA_EXTENSIONS`
+(comma-separated paths) loads other extensions alongside Pulls — see
+experiments/004 for uBlock Origin. They use full Chromium (`channel: "chromium"`): Playwright's
 default headless shell can't load extensions.
 
 Loading `dist/`:
@@ -39,5 +42,6 @@ Smoke-tested on real logged-out Instagram (experiments/003).
 
 Not yet: hide "More posts from …" on single-item pages, move the panel off the
 caption, home feed and `/p/<code>/` posts, friend reels from DMs, ads, skipping
-already-pulled items, items seen on earlier days. Not tested in Firefox (it
-can't be installed in the cloud environment; `web-ext lint` passes).
+already-pulled items, items seen on earlier days. Tested in Chromium and Firefox
+desktop, also alongside uBlock Origin (experiments/004). Not tested on Firefox
+for Android.

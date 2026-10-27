@@ -1,6 +1,8 @@
 // Serves the mock Instagram and opens a browser with the test build loaded.
 // BROWSER=chromium (default, Playwright) or BROWSER=firefox (Puppeteer over
 // WebDriver BiDi; FIREFOX_BIN points at the binary, default /opt/firefox/firefox).
+// EXTRA_EXTENSIONS: comma-separated extension paths to load alongside Pulls
+// (e.g. uBlock Origin), to check that Pulls still behaves.
 //
 // Tests talk to a small driver interface so the same tests run in both:
 //   goto(url) reload() path() playing() press(key) wheel(dy) wait(ms)
@@ -30,7 +32,10 @@ function serveMock() {
   return new Promise(resolve => server.listen(0, "127.0.0.1", () => resolve(server)));
 }
 
+const extras = () => (process.env.EXTRA_EXTENSIONS ?? "").split(",").filter(Boolean);
+
 async function launchChromium(ext) {
+  const all = [ext, ...extras()].join(",");
   const { chromium } = await import("playwright");
   const ctx = await chromium.launchPersistentContext(
     fs.mkdtempSync(path.join(os.tmpdir(), "pulls-e2e-")),
@@ -38,7 +43,7 @@ async function launchChromium(ext) {
       channel: "chromium", // the default headless shell can't load extensions
       headless: true,
       viewport: VIEWPORT,
-      args: [`--disable-extensions-except=${ext}`, `--load-extension=${ext}`],
+      args: [`--disable-extensions-except=${all}`, `--load-extension=${all}`],
     },
   );
   return { page: await ctx.newPage(), close: () => ctx.close() };
@@ -50,8 +55,11 @@ async function launchFirefox(ext) {
     browser: "firefox",
     executablePath: process.env.FIREFOX_BIN ?? "/opt/firefox/firefox",
     headless: true,
+    dumpio: Boolean(process.env.DUMPIO), // browser stdout/stderr, for debugging
+    extraPrefsFirefox: JSON.parse(process.env.FIREFOX_PREFS ?? "{}"),
+    userDataDir: process.env.FIREFOX_PROFILE, // keep the profile, for debugging
   });
-  await browser.installExtension(ext);
+  for (const e of [...extras(), ext]) await browser.installExtension(e);
   const page = await browser.newPage();
   await page.setViewport(VIEWPORT);
   return { page, close: () => browser.close() };

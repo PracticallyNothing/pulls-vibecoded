@@ -2,14 +2,14 @@
 
 ## Environment findings
 
-| Thing | Status |
-|---|---|
-| Node 22, npm registry | available |
-| Chromium (Playwright 1.64, `/opt/pw-browsers`) | available; loads unpacked MV3 extensions **only with `channel: "chromium"`** — the default headless shell silently ignores `--load-extension` |
-| Firefox binary | **not obtainable**: download.mozilla.org, packages.mozilla.org, Launchpad PPA, deb.debian.org, cdn.playwright.dev all denied by network policy; Ubuntu's `firefox` package is a snap stub |
-| `web-ext lint` (Mozilla's addons-linter, via npm) | works offline — validates the manifest/code against Firefox rules |
-| instagram.com, tiktok.com | **denied** by network policy (403 on CONNECT) |
-| Android emulator / Firefox for Android | not available (no SDK, no KVM assumed, no Mozilla downloads) |
+| Thing                                             | Status                                                                                                                                                                                    |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Node 22, npm registry                             | available                                                                                                                                                                                 |
+| Chromium (Playwright 1.64, `/opt/pw-browsers`)    | available; loads unpacked MV3 extensions **only with `channel: "chromium"`** — the default headless shell silently ignores `--load-extension`                                             |
+| Firefox binary                                    | **not obtainable**: download.mozilla.org, packages.mozilla.org, Launchpad PPA, deb.debian.org, cdn.playwright.dev all denied by network policy; Ubuntu's `firefox` package is a snap stub |
+| `web-ext lint` (Mozilla's addons-linter, via npm) | works offline — validates the manifest/code against Firefox rules                                                                                                                         |
+| instagram.com, tiktok.com                         | **denied** by network policy (403 on CONNECT)                                                                                                                                             |
+| Android emulator / Firefox for Android            | not available (no SDK, no KVM assumed, no Mozilla downloads)                                                                                                                              |
 
 ## Spike
 
