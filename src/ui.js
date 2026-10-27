@@ -51,7 +51,11 @@ const HTML = `
 export function createUi({ onPrev, onNext, onPull }) {
   const host = document.createElement("pulls-ui");
   const root = host.attachShadow({ mode: "open" });
-  root.innerHTML = `<style>${CSS}</style>${HTML}`;
+  const style = document.createElement("style");
+  style.textContent = CSS;
+  // DOMParser rather than innerHTML: HTML is a constant, but add-on review flags innerHTML.
+  const parsed = new DOMParser().parseFromString(HTML, "text/html");
+  root.append(style, ...parsed.body.childNodes);
   const $ = name => root.querySelector(`[data-pulls=${name}]`);
 
   let confirmResolve = null;
