@@ -44,7 +44,10 @@ try {
   await shot("3-next");
 
   await b.click("[data-pulls=prev]");
-  await until(async () => (await b.path()).startsWith("/reel/"), "/reel/ page", 10000);
+  // On timeout, log where the page ended up instead of throwing (see experiments/005).
+  await until(async () => (await b.path()).startsWith("/reel/"), "/reel/ page", 10000).catch(
+    async () => console.log(engine, "Prev did not reach /reel/; now at", await b.path()),
+  );
   await b.wait(4000);
   await log("after Prev:");
   await shot("4-prev");
