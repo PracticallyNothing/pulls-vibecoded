@@ -75,7 +75,7 @@ No refunds for "it was boring" — that's a peek-then-refund cheat.
 Two feeds, both algorithmic, both taken over:
 
 - **Home feed** (`instagram.com/`, which the user calls the "For You" page):
-  posts — photos, carousels, videos/reels. A pull = one post. Swiping through a
+  posts — image posts, carousels, videos/reels. A pull = one post. Swiping through a
   carousel, reading comments, etc. on a pulled post is free. A pulled post is
   re-viewed via its single-post page `/p/<code>/`.
 - **Reels feed** (`/reels/<code>/`): a pull = one reel, re-viewed via `/reel/<code>/`.
@@ -91,15 +91,18 @@ refreshes on reload.)
 Instagram's feed forgets its sequence on reload (see experiments/002), so the
 plugin owns the sequence, not the site:
 
-- Today's pulls are stored as an ordered list of reel shortcodes.
+- Today's pulls are stored as an ordered list of `{kind: post | reel, code}`.
+  Image posts, carousels and video posts count exactly like reels.
 - Previous/next *within today's pulls* is the plugin's own navigation, free, and
-  shows each reel via `/reel/<code>/` — the single-reel page, which has no feed
-  attached and so leaks nothing new.
-- Only "next" past the end of the list offers **Pull**. Accepting loads the For
-  You feed at `/reels/<last code>/`, advances once, and charges when the new reel
-  plays. If the advance lands on a code already in today's list, skip on, free.
-- Landing on `/reels/` (or a reload of it) never shows Instagram's pick directly:
-  it goes to the latest pulled reel, or to the Pull screen if there are none yet.
+  shows each item on its single page — `/p/<code>/` for posts, `/reel/<code>/`
+  for reels. (`/reel/` verified to have no feed attached; `/p/` to check.)
+- Only "next" past the end of the list offers **Pull**. Accepting advances the
+  feed the user is on (home or reels) by one item and charges when it is
+  actually shown: image loaded, or video playing. If the advance lands on an
+  item already in today's list, skip on, free.
+- Landing on `/` or `/reels/` (or a reload) never shows Instagram's pick
+  directly: it goes to the latest pulled item, or to the Pull screen if there
+  are none yet.
 
 ## Decided
 
